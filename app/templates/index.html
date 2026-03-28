@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/static/styles.css" />
+  <title>Flaky Test Detective</title>
+</head>
+<body>
+  <h1>Flaky Test Detective</h1>
+  <form method="post" action="/run"><button type="submit">Analyze Sample Dataset</button></form>
+
+  {% if report %}
+  <h2>Top Flaky Tests</h2>
+  <table>
+    <tr><th>Test</th><th>Score</th><th>Pattern</th><th>Action</th></tr>
+    {% for t in report.flaky_tests[:10] %}
+    <tr><td>{{ t.test_name }}</td><td>{{ t.flake_score }}</td><td>{{ t.pattern }}</td><td>{{ t.recommended_action }}</td></tr>
+    {% endfor %}
+  </table>
+  <h3>Recommendations</h3>
+  <ul>{% for r in report.recommendations %}<li>{{ r }}</li>{% endfor %}</ul>
+  {% endif %}
+</body>
+</html>
